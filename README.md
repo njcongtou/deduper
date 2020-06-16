@@ -22,3 +22,21 @@
   docker run -p 8080:8080 -d deduper
 
   curl http://localhost:8080/_dedupercache/scores/Tom
+  
+ ## Dev Goal
+ 
+ ### Current Goal
+ 
+  1. add consistent hasher
+  2. add distributed nodes support (local ports first)
+  3. create 3 statefulset pods, find IPs. find a way to register them on hashring
+ 
+ ### Final Goal
+ 
+   k8s statefulset pods are allocated on a hashring. Pod is able to send msg to others based on hashring.
+   k8s operator: ?
+   1. When initilizing statefulset pods, all pods' IPs should be registered on the hashring. 
+   2. When adding new pod(s) (scale up cluster), newly added pod's IP should be registered on all pods.
+   3. When removing existing pod(s) (scale up cluster), the pod's IP should be removed on all pods.
+   4. Properly handing statefulset pod restarting, not scale up or down. Just restarted. ?
+   5. Properly handing extreme case: kvm (node) failure, pods are scheduled on other nodes.
