@@ -10,26 +10,29 @@
 6. localhost port 8080
 7. URL : http://localhost:8080/_dedupercache/scores/Tom
 8. consistent hasher
+9. add distributed nodes support (tested using local ports 8001, 8002, 8003), api server on port 9999
 
     pattern: default_base_url/group/key
 
 ## Dev commands:
 
 
-  docker stop `docker ps -a -q`
+  docker stop \`docker ps -a -q\`
 
   docker build -t deduper .
 
-  docker run -p 8080:8080 -d deduper
+  docker run -p 8001:8001 -p 8002:8002 -p 8003:8003 -p 9999:9999 -d deduper
 
   curl http://localhost:8080/_dedupercache/scores/Tom
+  
+  curl http://localhost:9999/api?key=Tom
   
  ## Dev Goal
  
  ### Current Goal
  
-  1. add distributed nodes support (local ports first)
-  2. create 3 statefulset pods, find IPs. find a way to register them on hashring
+  1. create 3 statefulset pods, find IPs. find a way to register them on hashring
+  2. make 3 nodes exchanging messages
  
  ### Final Goal
  
