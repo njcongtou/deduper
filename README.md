@@ -9,6 +9,7 @@
 5. docker support
 6. localhost port 8080
 7. URL : http://localhost:8080/_dedupercache/scores/Tom
+8. consistent hasher
 
     pattern: default_base_url/group/key
 
@@ -27,9 +28,8 @@
  
  ### Current Goal
  
-  1. add consistent hasher
-  2. add distributed nodes support (local ports first)
-  3. create 3 statefulset pods, find IPs. find a way to register them on hashring
+  1. add distributed nodes support (local ports first)
+  2. create 3 statefulset pods, find IPs. find a way to register them on hashring
  
  ### Final Goal
  
