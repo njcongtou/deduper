@@ -1,7 +1,7 @@
-package deduper2
+package deduper
 
 import (
-	"deduper2/lru"
+	"deduper/lru"
 	"sync"
 )
 

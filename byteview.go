@@ -1,4 +1,4 @@
-package deduper2
+package deduper
 
 // ByteView holds an immutable view of bytes.
 type ByteView struct {

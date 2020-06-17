@@ -1,4 +1,4 @@
-module deduper2
+module deduper
 
 go 1.14
 

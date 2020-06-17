@@ -1,4 +1,4 @@
-package deduper2
+package deduper
 
 import (
 	"fmt"
