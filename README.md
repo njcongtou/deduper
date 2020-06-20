@@ -23,7 +23,7 @@
 
   docker run -p 8001:8001 -p 8002:8002 -p 8003:8003 -p 9999:9999 -d deduper
 
-  curl http://localhost:8080/_dedupercache/scores/Tom
+  curl http://localhost:8001/_dedupercache/scores/Tom
   
   curl http://localhost:9999/api?key=Tom
   
