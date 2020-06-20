@@ -1,6 +1,6 @@
 # deduper
 
-## New Features
+## Progress
 
 1. local cache with Get() function
 2. lru 
@@ -13,26 +13,23 @@
 9. add distributed nodes support (tested using local ports 8001, 8002, 8003), api server on port 9999
 
     pattern: default_base_url/group/key
+    
+10. using Deployment instead of Statefulsets, since it does not support injecting pod ip env variable.
+11. support multiple k8s pods exchanging keys.
 
 ## Dev commands:
 
+  docker build -t jimwallet/deduper:v1 . && docker push jimwallet/deduper:v1
 
-  docker stop \`docker ps -a -q\`
-
-  docker build -t deduper .
-
-  docker run -p 8001:8001 -p 8002:8002 -p 8003:8003 -p 9999:9999 -d deduper
-
-  curl http://localhost:8001/_dedupercache/scores/Tom
+  curl http://172.17.0.2:8001/_dedupercache/scores/Tom
   
-  curl http://localhost:9999/api?key=Tom
+  curl http://172.17.0.2:9999/api?key=Tom
   
  ## Dev Goal
  
- ### Current Goal
+ ### TODO
  
-  1. create 3 statefulset pods, find IPs. find a way to register them on hashring
-  2. make 3 nodes exchanging messages
+    * store membership in configmap, and a goroutine peridically checking it.
  
  ### Final Goal
  

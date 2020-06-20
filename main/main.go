@@ -2,10 +2,10 @@ package main
 
 import (
 	"deduper"
-	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 var db = map[string]string{
@@ -52,17 +52,11 @@ func startAPIServer(apiAddr string, group *deduper.Group) {
 }
 
 func main() {
-	var port int
-	var api bool
-	flag.IntVar(&port, "port", 8001, "dedupercache server port")
-	flag.BoolVar(&api, "api", true, "Start a api server?")
-	flag.Parse()
 
-	apiAddr := ":9999"
-	addrMap := map[int]string{
-		8001: ":8001",
-		8002: ":8002",
-		8003: ":8003",
+	addrMap := map[string]string{
+		"pod1": "172.17.0.2:8001",
+		"pod2": "172.17.0.3:8001",
+		"pod3": "172.17.0.10:8001",
 	}
 
 	var addrs []string
@@ -70,9 +64,11 @@ func main() {
 		addrs = append(addrs, v)
 	}
 
+	podIP := os.Getenv("MY_POD_IP")
+	cacheServer := podIP + ":8001"
+	apierver := podIP + ":9999"
+
 	group := createGroup()
-	if api {
-		go startAPIServer(apiAddr, group)
-	}
-	startCacheServer(addrMap[port], []string(addrs), group)
+	go startAPIServer(apierver, group)
+	startCacheServer(cacheServer, []string(addrs), group)
 }

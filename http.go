@@ -81,7 +81,7 @@ func (p *HTTPPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (h *httpGetter) Get(group string, key string) ([]byte, error) {
 	// /<basepath>/<groupname>/<key> required
 	u := fmt.Sprintf(
-		"%v%v/%v",
+		"http://%v%v/%v",
 		h.baseURL,
 		url.QueryEscape(group),
 		url.QueryEscape(key),
