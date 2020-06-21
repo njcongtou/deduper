@@ -16,14 +16,21 @@
     
 10. using Deployment instead of Statefulsets, since it does not support injecting pod ip env variable.
 11. support multiple k8s pods exchanging keys.
+12. support configmap:
+    hardcoded 3 pods in the configmap
+    read them from main.go
 
 ## Dev commands:
 
-  docker build -t jimwallet/deduper:v1 . && docker push jimwallet/deduper:v1
+  docker build -t jimwallet/deduper:v2 . && docker push jimwallet/deduper:v2
 
   curl http://172.17.0.2:8001/_dedupercache/scores/Tom
   
   curl http://172.17.0.2:9999/api?key=Tom
+  
+  ### Local Testing In cluster, get from configmap, which requires permission.
+  kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+  https://stackoverflow.com/questions/52954810/kubespray-dashboard-warning-forbidden-popups
   
  ## Dev Goal
  

@@ -69,7 +69,11 @@ func (g *Group) RegisterPeers(peers PeerPicker) {
 	if g.peers != nil {
 		panic("RegisterPeerPicker called more than once")
 	}
+	fmt.Println("RegisterPeers in progress, old peers:")
+	fmt.Println(g.peers)
 	g.peers = peers
+	fmt.Println("RegisterPeers completed, new peers:")
+	fmt.Println(g.peers)
 }
 
 func (g *Group) Get(key string) (ByteView, error) {

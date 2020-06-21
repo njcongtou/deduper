@@ -1,11 +1,17 @@
 package main
 
 import (
+	"context"
 	"deduper"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+
+	"k8s.io/client-go/rest"
+
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
 )
 
 var db = map[string]string{
@@ -53,16 +59,39 @@ func startAPIServer(apiAddr string, group *deduper.Group) {
 
 func main() {
 
-	addrMap := map[string]string{
-		"pod1": "172.17.0.2:8001",
-		"pod2": "172.17.0.3:8001",
-		"pod3": "172.17.0.10:8001",
+	var (
+		clientset *kubernetes.Clientset
+		err       error
+		addrs     []string
+	)
+
+	// 1. creates the out of cluster config
+	//if clientset, err = common.InitClient(); err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+
+	// 2. creates the in-cluster config
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		panic(err.Error())
 	}
 
-	var addrs []string
-	for _, v := range addrMap {
-		addrs = append(addrs, v)
+	// 3. creates the clientset
+	clientset, err = kubernetes.NewForConfig(config)
+
+	configMap, err := clientset.CoreV1().ConfigMaps("default").Get(context.TODO(), "special-config", metav1.GetOptions{})
+	if err != nil {
+		panic(err.Error())
 	}
+
+	for _, value := range configMap.Data {
+		fmt.Println("a value is : " + value)
+		addrs = append(addrs, value)
+	}
+
+	fmt.Println("new constructed addresses are:")
+	fmt.Println(addrs)
 
 	podIP := os.Getenv("MY_POD_IP")
 	cacheServer := podIP + ":8001"
