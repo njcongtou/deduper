@@ -17,8 +17,12 @@
 10. using Deployment instead of Statefulsets, since it does not support injecting pod ip env variable.
 11. support multiple k8s pods exchanging keys.
 12. support configmap:
-    hardcoded 3 pods in the configmap
-    read them from main.go
+
+    store peers
+    
+    new server starts up and stores itself into configmap.
+    
+    upon configmap is changed, all pods will get latest peers from the configmap.
 
 ## Dev commands:
 
@@ -28,6 +32,8 @@
   
   curl http://172.17.0.2:9999/api?key=Tom
   
+  configmap is hardcoded called "special-config"
+  
   ### Local Testing In cluster, get from configmap, which requires permission.
   kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
   https://stackoverflow.com/questions/52954810/kubespray-dashboard-warning-forbidden-popups
@@ -36,7 +42,7 @@
  
  ### TODO
  
-    * store membership in configmap, and a goroutine peridically checking it.
+    * TBD
  
  ### Final Goal
  

@@ -117,6 +117,8 @@ func (p *HTTPPool) Set(peers ...string) {
 	for _, peer := range peers {
 		p.httpGetters[peer] = &httpGetter{baseURL: peer + p.basePath}
 	}
+	fmt.Println("set peers is done!")
+	fmt.Println(peers)
 }
 
 // PickPeer picks a peer according to key
