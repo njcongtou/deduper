@@ -1,7 +1,0 @@
-apiVersion: v1
-data:
-  test: test # delete me once all pods are started.
-kind: ConfigMap
-metadata:
-  name: special-config
-  namespace: default
